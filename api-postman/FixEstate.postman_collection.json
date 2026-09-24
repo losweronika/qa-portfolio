@@ -173,7 +173,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"email\": \"manager@fixestate.test\",\r\n    \"password\": \"{{resident_haslo}}\"\r\n}",
+              "raw": "{\r\n    \"email\": \"resident@fixestate.test\",\r\n    \"password\": \"{{resident_haslo}}\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -466,7 +466,7 @@
                   },
                   {
                     "key": "Authorization",
-                    "value": "Bearer {{acces_token_manager}}",
+                    "value": "Bearer {{access_token_manager}}",
                     "type": "text"
                   }
                 ],
