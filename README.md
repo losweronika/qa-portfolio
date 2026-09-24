@@ -21,3 +21,9 @@ FixEstate służy do zgłaszania i obsługi usterek w budynkach. Mieszkaniec zg�
 - **FQ-2:** nieudana próba logowania w drugiej karcie przeglądarki kończy aktywną sesję w pierwszej, więc użytkownik zostaje wylogowany.
 - **FQ-6:** do zgłoszenia z kategorii Hydraulika można przypisać wykonawcę ze specjalizacją Elektryka.
 - **FQ-1:** poprawny adres e-mail o maksymalnej dozwolonej długości jest odrzucany przy logowaniu. Wyszło to przy testach wartości brzegowych.
+
+## Plan testów
+
+Plan obejmuje panel webowy, aplikację mobilną i API dla czterech ról: logowanie, cykl życia zgłoszenia, przypisywanie użytkowników i budynki. Oprócz testów funkcjonalnych zaplanowałam sprawdzenie niedozwolonych przejść stanów dla każdej roli oraz testy na trzech przeglądarkach i dwóch telefonach.
+
+▶️ [**Plan testów FixEstate**](https://drive.google.com/file/d/1xM69pZqQ9NfXSO0WnfI_b2_ewvQq8hno/view?usp=sharing)
