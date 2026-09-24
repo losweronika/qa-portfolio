@@ -1,0 +1,1833 @@
+{
+  "info": {
+    "_postman_id": "acc75496-d37d-47c0-bdaf-90dd43b365ef",
+    "name": "FixEstate",
+    "description": "FixEstate to system zgłaszania i obsługi usterek w nieruchomościach. Mieszkańcy zgłaszają usterki przez aplikację mobilną, zarządcy koordynują naprawy w panelu webowym, a administrator zarządza budynkami i kontami użytkowników.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "54485742",
+    "_collection_link": "https://go.postman.co/collection/54485742-acc75496-d37d-47c0-bdaf-90dd43b365ef?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Autentykacja",
+      "item": [
+        {
+          "name": "Logowanie - Administrator",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const response = pm.response.json();\r\n\r\nif (pm.response.code === 200 && response.access_token) {\r\n    pm.environment.set(\"access_token_admin\", response.access_token);\r\n    pm.environment.set(\"refresh_token_admin\", response.refresh_token);\r\n    console.log(\"✅ Tokeny administratora zapisane pomyślnie.\");\r\n} else {\r\n    console.error(\"❌ Błąd logowania administratora:\", response);\r\n}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "apikey",
+                "value": "{{apikey}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\"email\": \"admin@fixestate.test\",\r\n\"password\": \"{{admin_haslo}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/v1/token?grant_type=password",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "v1",
+                "token"
+              ],
+              "query": [
+                {
+                  "key": "grant_type",
+                  "value": "password"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Logowanie - Zarządca",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const response = pm.response.json();\r\n\r\nif (pm.response.code === 200 && response.access_token) {\r\n    pm.environment.set(\"access_token_manager\", response.access_token);\r\n    pm.environment.set(\"refresh_token_manager\", response.refresh_token);\r\n    console.log(\"✅ Tokeny Zarządcy zapisane pomyślnie.\");\r\n} else {\r\n    console.error(\"❌ Błąd logowania Zarządcy:\", response);\r\n}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "apikey",
+                "value": "{{apikey}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"manager@fixestate.test\",\r\n    \"password\": \"{{manager_haslo}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/v1/token?grant_type=password",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "v1",
+                "token"
+              ],
+              "query": [
+                {
+                  "key": "grant_type",
+                  "value": "password"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Logowanie -Zarządca2",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "apikey",
+                "value": "{{apikey}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"manager2@fixestate.test\",\r\n    \"password\": \"{{manager2_haslo}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/v1/token?grant_type=password",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "v1",
+                "token"
+              ],
+              "query": [
+                {
+                  "key": "grant_type",
+                  "value": "password"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Logowanie - Mieszkaniec",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const response = pm.response.json();\r\n\r\nif (pm.response.code === 200 && response.access_token) {\r\n    pm.environment.set(\"access_token_resident\", response.access_token);\r\n    pm.environment.set(\"refresh_token_resident\", response.refresh_token);\r\n    console.log(\"✅ Tokeny Mieszkańca zapisane pomyślnie.\");\r\n} else {\r\n    console.error(\"❌ Błąd logowania Mieszkańca:\", response);\r\n}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "apikey",
+                "value": "{{apikey}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"manager@fixestate.test\",\r\n    \"password\": \"{{resident_haslo}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/v1/token?grant_type=password",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "v1",
+                "token"
+              ],
+              "query": [
+                {
+                  "key": "grant_type",
+                  "value": "password"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Logowanie - Wykonawca",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const response = pm.response.json();\r\n\r\nif (pm.response.code === 200 && response.access_token) {\r\n    pm.environment.set(\"access_token_contractor\", response.access_token);\r\n    pm.environment.set(\"refresh_token_contractor\", response.refresh_token);\r\n    console.log(\"✅ Tokeny Wykonawcy zapisane pomyślnie.\");\r\n} else {\r\n    console.error(\"❌ Błąd logowania Wykonawcy:\", response);\r\n}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "apikey",
+                "value": "{{apikey}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"contractor@fixestate.test\",\r\n    \"password\": \"{{contractor_haslo}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/v1/token?grant_type=password",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "v1",
+                "token"
+              ],
+              "query": [
+                {
+                  "key": "grant_type",
+                  "value": "password"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Logowanie - Wykonawca2",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "apikey",
+                "value": "{{apikey}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"losweronika122@gmail.com\",\r\n    \"password\": \"{{contractor2_haslo}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/v1/token?grant_type=password",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "v1",
+                "token"
+              ],
+              "query": [
+                {
+                  "key": "grant_type",
+                  "value": "password"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Odświeżanie tokena",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "apikey",
+                "value": "{{apikey}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"refresh_token\": \"{{refresh_token_admin}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/v1/token?grant_type=refresh_token",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "v1",
+                "token"
+              ],
+              "query": [
+                {
+                  "key": "grant_type",
+                  "value": "refresh_token"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "# Żądania związane z logowaniem oraz odświeżaniem tokena."
+    },
+    {
+      "name": "Zgłoszenia",
+      "item": [
+        {
+          "name": "Listy zgłoszeń",
+          "item": [
+            {
+              "name": "Pobieranie listy zgłoszeń z konta Mieszkańca",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "apikey",
+                    "value": "{{apikey}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token_resident}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/rest/v1/tickets",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "rest",
+                    "v1",
+                    "tickets"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Pobieranie listy zgłoszeń z konta Administratora",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "apikey",
+                    "value": "{{apikey}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token_admin}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/rest/v1/tickets",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "rest",
+                    "v1",
+                    "tickets"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Przejścia dozwolone",
+          "item": [
+            {
+              "name": "FQ-T19 Dodawanie zgłoszenia przez Mieszkańca",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "apikey",
+                    "value": "{{apikey}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token_resident}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"action\": \"submit\",\r\n    \"title\": \"TEST123\",\r\n    \"category\": \"Inne\",\r\n    \"description\": \"Test\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/functions/v1/transition-ticket",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "functions",
+                    "v1",
+                    "transition-ticket"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "FQ-T20 Przypisywanie Wykonawcy do zgłoszenia przez Zarządcę danego budynku",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "apikey",
+                    "value": "{{apikey}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{acces_token_manager}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"action\": \"assign\",\r\n    \"ticket_id\": \"{{ticket_id}}\",\r\n    \"assignee_id\": \"00000000-0000-0000-0000-000000000004\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/functions/v1/transition-ticket",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "functions",
+                    "v1",
+                    "transition-ticket"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "FQ-T21 Przypisanie Wykonawcy do zgłoszenia przez Admina",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "apikey",
+                    "value": "{{apikey}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token_resident}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"action\": \"assign\",\r\n    \"ticket_id\": \"{{ticket_id}}\",\r\n    \"assignee_id\": \"00000000-0000-0000-0000-000000000004\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/functions/v1/transition-ticket",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "functions",
+                    "v1",
+                    "transition-ticket"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "FQ-T22 Przypisywanie nowego Wykonawcy do zgłoszenia przez Zarządcę danego budynku",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "apikey",
+                    "value": "{{apikey}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token_manager}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"action\": \"assign\",\r\n    \"ticket_id\": \"0c34d3e8-db58-40c0-8fa6-2a6e2728dc9a\",\r\n    \"assignee_id\": \"5c8445e9-7546-497a-9b8a-fd29a7a3da3d\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/functions/v1/transition-ticket",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "functions",
+                    "v1",
+                    "transition-ticket"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "FQ-T23 Przypisywanie nowego Wykonawcy do zgłoszenia przez Admina",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "apikey",
+                    "value": "{{apikey}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token_admin}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"action\": \"assign\",\r\n    \"ticket_id\": \"0c34d3e8-db58-40c0-8fa6-2a6e2728dc9a\",\r\n    \"assignee_id\": \"00000000-0000-0000-0000-000000000004\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/functions/v1/transition-ticket",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "functions",
+                    "v1",
+                    "transition-ticket"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "FQ-T24 Odrzucanie nowoutworzonego zgłoszenia przez Admina",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "apikey",
+                    "value": "{{apikey}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token_admin}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"action\": \"reject\",\r\n    \"ticket_id\": \"45906f3f-db96-4560-8c3e-640da956e589\",\r\n    \"rejection_reason\": \"Przykładowy powód\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/functions/v1/transition-ticket",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "functions",
+                    "v1",
+                    "transition-ticket"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "FQ-T25 Odrzucanie nowoutworzonego zgłoszenia przez Zarządcę danego budynku",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "apikey",
+                    "value": "{{apikey}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token_manager}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"action\": \"reject\",\r\n    \"ticket_id\": \"7e6696f0-950b-43e7-9bad-e5710e254452\",\r\n    \"rejection_reason\": \"Przykładowy powód\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/functions/v1/transition-ticket",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "functions",
+                    "v1",
+                    "transition-ticket"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "FQ-T26 Przekierowanie wykonywanego przez Wykonawcę zgłsozenia do oceny przy użyciu konta Admina",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "apikey",
+                    "value": "{{apikey}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token_admin}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"action\": \"request_review\",\r\n    \"ticket_id\": \"0c34d3e8-db58-40c0-8fa6-2a6e2728dc9a\",\r\n    \"completion_note\": \"Przykładowy powód\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/functions/v1/transition-ticket",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "functions",
+                    "v1",
+                    "transition-ticket"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "FQ-T27 Przekierowanie wykonanego przez Wykonawcę zgłoszenia do oceny",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "apikey",
+                    "value": "{{apikey}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token_contractor}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"action\": \"request_review\",\r\n    \"ticket_id\": \"00000000-0000-0000-0000-000000000106\",\r\n    \"completion_note\": \"Przykładowy opis\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/functions/v1/transition-ticket",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "functions",
+                    "v1",
+                    "transition-ticket"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "FQ-T28 Zakończenie zadania za pomocą konta Admina",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "apikey",
+                    "value": "{{apikey}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token_admin}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"action\": \"approve\",\r\n    \"ticket_id\": \"0c34d3e8-db58-40c0-8fa6-2a6e2728dc9a\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/functions/v1/transition-ticket",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "functions",
+                    "v1",
+                    "transition-ticket"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "FQ-T29 Zakończenie zadania za pomocą konta Zarządcy danego budynku",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "apikey",
+                    "value": "{{apikey}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token_manager}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"action\": \"approve\",\r\n    \"ticket_id\": \"42887c25-f92c-45bd-9413-e02c01eb0932\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/functions/v1/transition-ticket",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "functions",
+                    "v1",
+                    "transition-ticket"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "FQ-T30 Przekierowanie niewykonanego/niepoprawnie wykonanego zgłoszenia do ponownego wykonania z konta Admina",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "apikey",
+                    "value": "{{apikey}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token_admin}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"action\": \"request_changes\",\r\n    \"ticket_id\": \"00000000-0000-0000-0000-000000000106\",\r\n    \"rejection_reason\": \"Przykładowy powód\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/functions/v1/transition-ticket",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "functions",
+                    "v1",
+                    "transition-ticket"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "FQ-T31 Przekierowanie niewykonanego/niepoprawnie wykonanego zgłoszenia do ponownego wykonania z konta Zarządcy danego budynku",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "apikey",
+                    "value": "{{apikey}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token_manager}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"action\": \"request_changes\",\r\n    \"ticket_id\": \"b184bee8-55c7-49de-b103-da6f321edc2a\",\r\n    \"rejection_reason\": \"Przykładowy powód\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/functions/v1/transition-ticket",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "functions",
+                    "v1",
+                    "transition-ticket"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "FQ-T32 Ponowne przywrócenie zakończonego zgłoszenia do stanu \"W trakcie\" bez przypisanego Wykonawcy za pomocą konta Zarządcy danego budynku",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "apikey",
+                    "value": "{{apikey}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token_manager}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"action\": \"reopen\",\r\n    \"ticket_id\": \"69ebbb42-9281-4691-8491-0052166f4cc2\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/functions/v1/transition-ticket",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "functions",
+                    "v1",
+                    "transition-ticket"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "FQ-T33 Ponowne przywrócenie zakończonego zgłoszenia do stanu \"W trakcie\" bez przypisanego Wykonawcy za pomocą konta Admina",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "apikey",
+                    "value": "{{apikey}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token_admin}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"action\": \"reopen\",\r\n    \"ticket_id\": \"42887c25-f92c-45bd-9413-e02c01eb0932\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/functions/v1/transition-ticket",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "functions",
+                    "v1",
+                    "transition-ticket"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "FQ-T34 Przekierowanie zgłoszenia ze stanu \"Odrzucone\" do stanu \"Nowe\" korzystając z konta Admina",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "apikey",
+                    "value": "{{apikey}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token_admin}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"action\": \"reopen\",\r\n    \"ticket_id\": \"7e6696f0-950b-43e7-9bad-e5710e254452\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/functions/v1/transition-ticket",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "functions",
+                    "v1",
+                    "transition-ticket"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "FQ-T35 Przekierowanie zgłoszenia ze stanu \"Odrzucone\" do stanu \"Nowe\" za pomocą konta Zarządcy danego budynku",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "apikey",
+                    "value": "{{apikey}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token_manager}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"action\": \"reopen\",\r\n    \"ticket_id\": \"45906f3f-db96-4560-8c3e-640da956e589\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/functions/v1/transition-ticket",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "functions",
+                    "v1",
+                    "transition-ticket"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Przejścia niedozwolone",
+          "item": [
+            {
+              "name": "FQ-T36 Zakończenie zgłoszenia w stanie \"Nowe\" przez Admina",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "apikey",
+                    "value": "{{apikey}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token_admin}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"action\": \"approve\",\r\n    \"ticket_id\": \"45906f3f-db96-4560-8c3e-640da956e589\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/functions/v1/transition-ticket",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "functions",
+                    "v1",
+                    "transition-ticket"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "FQ-T37 Odrzucenie zgłoszenia, które jest w stanie \"W trakcie\" przez konto Zarządcy danego budynku",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "apikey",
+                    "value": "{{apikey}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token_manager}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"action\": \"reject\",\r\n    \"ticket_id\": \"42887c25-f92c-45bd-9413-e02c01eb0932\",\r\n    \"rejection_reason\": \"Przykładowy powód\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/functions/v1/transition-ticket",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "functions",
+                    "v1",
+                    "transition-ticket"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "FQ_T38 Ponowne otworzenie zgłoszenia będącego w stanie \"W ocenie\" za pomocą konta Admina",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "apikey",
+                    "value": "{{apikey}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token_admin}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"action\": \"reopen\",\r\n    \"ticket_id\": \"00000000-0000-0000-0000-000000000101\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/functions/v1/transition-ticket",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "functions",
+                    "v1",
+                    "transition-ticket"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "FQ-T39 Oddanie do oceny zakończonego zgłoszenia przy użyciu konta Admina",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "apikey",
+                    "value": "{{apikey}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token_admin}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"action\": \"request_review\",\r\n    \"ticket_id\": \"0c34d3e8-db58-40c0-8fa6-2a6e2728dc9a\",\r\n    \"completion_note\": \"Przykładowy opis\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/functions/v1/transition-ticket",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "functions",
+                    "v1",
+                    "transition-ticket"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "FQ-T40 Próba ponownego stworzenia zgłoszenia, które jest w stanie \"W ocenie\"",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "apikey",
+                    "value": "{{apikey}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token_admin}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"action\": \"submit\",\r\n    \"ticket_id\": \"42887c25-f92c-45bd-9413-e02c01eb0932\",\r\n    \"title\": \"Przykładowy tytuł\",\r\n    \"category\": \"Hydraulika\",\r\n    \"description\": \"Przykładowy opis\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/functions/v1/transition-ticket",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "functions",
+                    "v1",
+                    "transition-ticket"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Przejścia niedozwolone dla danej roli",
+          "item": [
+            {
+              "name": "FQ-T41 Stworzenie nowego zgłoszenia przez Wykonawcę",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "apikey",
+                    "value": "{{apikey}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token_contractor}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"action\": \"submit\",\r\n    \"title\": \"Przykładowy tytuł\",\r\n    \"category\": \"Hydraulika\",\r\n    \"description\": \"Przykładowy opis\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/functions/v1/transition-ticket",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "functions",
+                    "v1",
+                    "transition-ticket"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "FQ-T42 Przypisanie Wykonawcy do zgłoszenia przez Mieszkańca",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "apikey",
+                    "value": "{{apikey}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token_resident}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"action\": \"assign\",\r\n    \"ticket_id\": \"7e6696f0-950b-43e7-9bad-e5710e254452\",\r\n    \"assignee_id\": \"5c8445e9-7546-497a-9b8a-fd29a7a3da3d\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/functions/v1/transition-ticket",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "functions",
+                    "v1",
+                    "transition-ticket"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "FQ-T43 Przekierowanie zgłoszenia do oceny przez Mieszkańca",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "apikey",
+                    "value": "{{apikey}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token_resident}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"action\": \"request_review\",\r\n    \"ticket_id\": \"42887c25-f92c-45bd-9413-e02c01eb0932\",\r\n    \"completion_note\": \"Przykładowy opis\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/functions/v1/transition-ticket",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "functions",
+                    "v1",
+                    "transition-ticket"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "FQ-T44 Odrzucenie zgłoszenia przez Wykonawcę",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "apikey",
+                    "value": "{{apikey}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token_contractor}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"action\": \"reject\",\r\n    \"ticket_id\": \"69ebbb42-9281-4691-8491-0052166f4cc2\",\r\n    \"rejection_reason\": \"Przykładowy powód\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/functions/v1/transition-ticket",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "functions",
+                    "v1",
+                    "transition-ticket"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "FQ-T45 Przekierowanie zgłoszenia do oceny przez Wykonawcę nieprzypisanego do danego zgłoszenia",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "apikey",
+                    "value": "{{apikey}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token_contractor2}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"action\": \"request_review\",\r\n    \"ticket_id\": \"42887c25-f92c-45bd-9413-e02c01eb0932\",\r\n    \"completion_note\": \"Przykładowy opis\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/functions/v1/transition-ticket",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "functions",
+                    "v1",
+                    "transition-ticket"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "FQ-T46 Zakończenie zgłoszenia przez Zarządcę, który nie jest przypisany do danego budynku",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "apikey",
+                    "value": "{{apikey}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token_manager2}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"action\": \"approve\",\r\n    \"ticket_id\": \"00000000-0000-0000-0000-000000000105\"\r\n\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/functions/v1/transition-ticket",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "functions",
+                    "v1",
+                    "transition-ticket"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "FQ-T47 Przekierowanie zgłoszenia, które jest w ocenie do stanu \"W trakcie\" przez Mieszkańca",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "apikey",
+                    "value": "{{apikey}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token_resident}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"action\": \"request_changes\",\r\n    \"ticket_id\": \"00000000-0000-0000-0000-000000000110\",\r\n    \"rejection_reason\": \"Przykładowy powód\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/functions/v1/transition-ticket",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "functions",
+                    "v1",
+                    "transition-ticket"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "FQ-T48 Ponowne otwarcie zakończonego zgłoszenia przez Wykonawcę",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "apikey",
+                    "value": "{{apikey}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token_contractor}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"action\": \"reopen\",\r\n    \"ticket_id\": \"0c34d3e8-db58-40c0-8fa6-2a6e2728dc9a\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/functions/v1/transition-ticket",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "functions",
+                    "v1",
+                    "transition-ticket"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Budynki",
+      "item": [
+        {
+          "name": "Pobieranie listy budynków",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "apikey",
+                "value": "{{apikey}}",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token_admin}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/rest/v1/buildings",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "rest",
+                "v1",
+                "buildings"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Próba przypisania do istniejącego budynku Zarządcy, który jest już przypisany do tego budynku",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "apikey",
+                "value": "{{apikey}}",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token_admin}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\"action\": \"assign-manager\",\r\n\"manager_id\": \"00000000-0000-0000-0000-000000000002\",\r\n\"building_id\": \"3829c12f-a977-4b79-a305-0ef788d7c649\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/functions/v1/manage-building",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "functions",
+                "v1",
+                "manage-building"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Próba przypisania nieistniejącego Zarządcy do istniejącego budynku",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "apikey",
+                "value": "{{apikey}}",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token_admin}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \r\n\"action\": \"assign-manager\",\r\n\"manager_id\": \"00000000-0000-0000-0000-000000000052\",\r\n\"building_id\": \"3829c12f-a977-4b79-a305-0ef788d7c649\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/functions/v1/manage-building",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "functions",
+                "v1",
+                "manage-building"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Próba przypisania Zarządcy do istniejącego budynku z konta innego Zarządcy",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "apikey",
+                "value": "{{apikey}}",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token_manager}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \r\n\"action\": \"assign-manager\",\r\n\"manager_id\": \"00000000-0000-0000-0000-000000000009\",\r\n\"building_id\": \"3829c12f-a977-4b79-a305-0ef788d7c649\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/functions/v1/manage-building",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "functions",
+                "v1",
+                "manage-building"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Przypisanie Zarządcy do istniejącego budynku",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "apikey",
+                "value": "{{apikey}}",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token_admin}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"action\": \"assign-manager\",\r\n    \"manager_id\": \"00000000-0000-0000-0000-000000000009\",\r\n    \"building_id\": \"6a4e309d-a258-402d-8b50-f6d214c91b24\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/functions/v1/manage-building",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "functions",
+                "v1",
+                "manage-building"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Tworzenie budynku",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "apikey",
+                "value": "{{apikey}}",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token_admin}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"action\": \"create\",\r\n   \"name\": \"Testowy budynek\",\r\n    \"street\": \"Warszawska 456\",\r\n    \"city\": \"Poznań\",\r\n    \"postal_code\": \"61-249\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/functions/v1/manage-building",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "functions",
+                "v1",
+                "manage-building"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
