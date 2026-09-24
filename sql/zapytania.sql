@@ -1,4 +1,7 @@
--- 1. Pokaż ID oraz tytuł zgłoszenia, które ma status "Odrzucone" i nie podano powodu odrzucenia.
+-- Zapytania do bazy FixEstate (Supabase, PostgreSQL) sprawdzające dane po testach.
+
+-- 1. Odrzucone zgłoszenia bez powodu odrzucenia. Powód jest wymagany, więc wynik powinien być pusty.
+-- Powiązane: FQ-T24, FQ-T25
 
 
 SELECT id, title 
@@ -6,7 +9,8 @@ FROM tickets
 WHERE status = 'Odrzucone' AND rejection_reason IS NULL
 
 
--- 2. Dla każdej kategorii ticketów policz, ile jest w niej zgłoszeń. Pokaż nazwę kategorii i liczbę zgłoszeń. Posortuj wynik od kategorii z największą liczbą zgłoszeń do najmniejszej.
+-- 2. Liczba zgłoszeń w każdej kategorii - do porównania z filtrem kategorii na liście zgłoszeń.
+-- Powiązane: FQ-T114, FQ-T115
 
 SELECT category, COUNT(*) AS liczba_ticketów
 FROM tickets
@@ -14,7 +18,8 @@ GROUP BY category
 ORDER BY COUNT(id) DESC
 
 
--- 3. Pokaż tytuły zgłoszeń, które powtarzają się więcej niż raz. Wyświetl tytuł i liczbę jego wystąpień.
+-- 3. Powtarzające się tytuły - czy przy tworzeniu zgłoszenia nie powstają duplikaty.
+-- Powiązane: FQ-T19, FQ-T72
 
 SELECT title, COUNT(*) AS liczba_wystąpień
 FROM tickets
@@ -22,7 +27,8 @@ GROUP BY title
 HAVING COUNT(*) > 1
 
 
--- 4. Pokaż tytuły zgłoszeń w statusie „W trakcie” razem z imieniem i nazwiskiem osoby, do której są przypisane. Posortuj wynik alfabetycznie po nazwisku.
+-- 4. Zgłoszenia "W trakcie" z osobą przypisaną - każde powinno mieć wykonawcę.
+-- Powiązane: FQ-T20, FQ-T21
 
 SELECT t.title, p.first_name, p.last_name 
 FROM tickets t
@@ -31,7 +37,8 @@ WHERE status = 'W trakcie' -- bez określania roli, żeby ewentualnie wykryć ni
 ORDER BY p.last_name
 
 
--- 5. Pokaż osoby, które mają przypisanych więcej niż 5 zgłoszeń. Wyświetl imię, nazwisko i liczbę przypisanych ticketów. Posortuj od osoby z największą liczbą zgłoszeń.
+-- 5. Osoby z więcej niż 5 przypisanymi zgłoszeniami - jak rozkładają się przypisania.
+-- Powiązane: FQ-T20 - FQ-T23
 
 SELECT p.first_name, p.last_name, COUNT(t.assignee_id)
 FROM profiles p
@@ -41,7 +48,8 @@ HAVING COUNT(assignee_id) > 5
 ORDER BY COUNT(*) DESC
 
 
--- 6. Pokaż nazwy budynków, dla których nie powstało żadne zgłoszenie.
+-- 6. Budynki bez żadnego zgłoszenia - do doboru danych przy testach zarządcy "danego budynku".
+-- Powiązane: FQ-T25, FQ-T46
 
 SELECT b.name
 FROM buildings b
@@ -49,14 +57,16 @@ LEFT JOIN tickets t ON t.building_id = b.id
 WHERE t.id IS NULL
 
 
---  7. Pokaż tytuł, kategorię i status zgłoszeń z kategorii „Hydraulika” lub „Elektryka”, które nie są ani zakończone, ani odrzucone.
+-- 7. Otwarte zgłoszenia z Hydrauliki i Elektryki - do porównania z filtrami kategorii i statusu.
+-- Powiązane: FQ-T114 - FQ-T117
 
 SELECT title, category, status
 FROM tickets
 WHERE category IN ('Hydraulika', 'Elektryka') AND status NOT IN ('Zakończone', 'Odrzucone')
 
 
--- 8. Pokaż osoby, które utworzyły co najmniej 3 zgłoszenia. Wyświetl imię, nazwisko i liczbę zgłoszeń. Posortuj od osoby z największą liczbą zgłoszeń.
+-- 8. Osoby, które utworzyły co najmniej 3 zgłoszenia - czy reporter_id zapisuje się przy tworzeniu.
+-- Powiązane: FQ-T19, FQ-T72
 
 SELECT p.first_name, p.last_name, COUNT(t.reporter_id) AS liczba_zgłoszeń
 FROM profiles p
@@ -66,7 +76,8 @@ HAVING COUNT(t.reporter_id) >= 3
 ORDER BY COUNT(t.reporter_id) DESC
 
 
--- 9. Pokaż imię, nazwisko i specjalizację osób przypisanych do zgłoszeń z kategorii „Elektryka” oraz tytuły tych zgłoszeń.
+-- 9. Specjalizacja wykonawców przypisanych do zgłoszeń z Elektryki - czy pasuje do kategorii.
+-- Powiązane: FQ-T79, defekt FQ-6
 
 SELECT p.first_name, p.last_name, p.specialization, t.title 
 FROM profiles p
@@ -74,7 +85,8 @@ JOIN tickets t ON t.assignee_id = p.id
 WHERE category = 'Elektryka'
 
 
--- 10. Dla każdego budynku policz, ile utworzono w nim zgłoszeń, także jeśli nie ma ani jednego. Wyświetl nazwę budynku i liczbę zgłoszeń. Posortuj od budynku z najmniejszą liczbą zgłoszeń.
+-- 10. Liczba zgłoszeń w każdym budynku, także zerowa.
+-- Powiązane: FQ-T25, FQ-T46
 
 SELECT b.name, COUNT(t.building_id) AS Liczba_zgłoszeń
 FROM buildings b
@@ -83,7 +95,8 @@ GROUP BY b.id, b.name
 ORDER BY COUNT(t.building_id) ASC
 
 
--- 11. Pokaż imiona i nazwiska wykonawców, którzy nie mają przypisanego żadnego zgłoszenia.
+-- 11. Wykonawcy bez przypisanego zgłoszenia, np. nowo dodane konta.
+-- Powiązane: FQ-T120, FQ-T123
 
 SELECT p.first_name, p.last_name
 FROM profiles p
@@ -91,7 +104,8 @@ LEFT JOIN tickets t ON t.assignee_id = p.id
 WHERE assignee_id IS NULL AND role = 'contractor'
 
 
--- 12. Pokaż zgłoszenia, które mają więcej niż 2 komentarze. Wyświetl tytuł zgłoszenia i liczbę komentarzy. Posortuj od zgłoszenia z największą liczbą komentarzy.
+-- 12. Zgłoszenia z więcej niż 2 komentarzami.
+-- Powiązane: brak, komentarze były poza zakresem testów
 
 SELECT t.title, COUNT(tc.id) AS liczba_komentarzy
 FROM tickets t
@@ -101,7 +115,8 @@ HAVING COUNT(tc.id) > 2
 ORDER BY COUNT(tc.id) DESC
 
 
--- 13. Pokaż zgłoszenia, w których data ostatniej aktualizacji jest wcześniejsza niż data utworzenia lub jej równa. Wyświetl id zgłoszenia, datę utworzenia i datę aktualizacji.
+-- 13. Data aktualizacji nie późniejsza niż data utworzenia - po zmianie stanu updated_at powinno się zmienić.
+-- Powiązane: FQ-T24 - FQ-T35
 
 SELECT id, created_at, updated_at 
 FROM tickets
