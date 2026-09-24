@@ -11,3 +11,7 @@ Podczas nauki pracowałam z Jirą, Zephyr Scale, Postmanem, SQL, Chrome DevTools
 | Przypadki testowe | Techniki projektowania | Wykonania | Defekty w Jirze | Requesty API |
 |---|---|---|---|---|
 | 129 (95 manualnych, 34 API) | 4 | 128: 121 Pass, 7 Fail | 8 | 45 |
+
+## Testowana aplikacja: FixEstate
+
+FixEstate służy do zgłaszania i obsługi usterek w budynkach. Mieszkaniec zgłasza usterkę w aplikacji mobilnej, zarządca albo administrator przypisuje ją wykonawcy w panelu webowym, a wykonawca oddaje wykonaną pracę do oceny. Zgłoszenie przechodzi przez stany Nowe, W trakcie, W ocenie, Zakończone lub Odrzucone, a to, kto może zmienić stan, zależy od roli. Backend działa na Supabase (PostgreSQL), więc oprócz interfejsu testowałam też REST API i dane w bazie.
