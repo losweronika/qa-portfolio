@@ -57,3 +57,11 @@ Dla uprawnień zestawiłam 7 akcji na zgłoszeniu z 7 wariantami ról, np. zarz�
 Zgłoszenie ma 5 stanów i 7 akcji. Rozpisałam 9 przejść dozwolonych i 22 niedozwolone, z których powstało 41 przypadków. W API sprawdzałam, czy przejście niedozwolone w danym stanie kończy się kodem 422, a akcja spoza uprawnień roli kodem 403. Tą techniką testowałam też logowanie (stan zalogowany i niezalogowany).
 
 ▶️ [**Tabela przejść stanów zgłoszenia**](https://docs.google.com/spreadsheets/d/1EJl-A8l-beYo0OW2_BjEGqfwKR2pyT6zI6FYMVZIswM/edit?usp=sharing)
+
+## Scenariusze i przypadki testowe
+
+Przepływy opisałam w 15 scenariuszach i przy każdym zaznaczyłam ryzyko biznesowe, np. dostęp do konta przez niewłaściwą osobę. Scenariusze realizuje 129 przypadków testowych z Zephyr Scale: 95 manualnych w panelu webowym i aplikacji mobilnej oraz 34 w REST API.
+
+▶️ [**Scenariusze testowe (15)**](https://docs.google.com/spreadsheets/d/130nwioql5t7UpcQyUr_UG3sKlfgZu73JyxiLWtDEmD4/edit?usp=sharing)
+
+▶️ [**Przypadki testowe (129)**](https://docs.google.com/spreadsheets/d/1OI4bGF_G4yJsM5NOPPo1-oZeNVuifn-gcXWxnuZyBPI/edit?usp=sharing)
