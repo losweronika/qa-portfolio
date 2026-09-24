@@ -20,7 +20,7 @@ FixEstate służy do zgłaszania i obsługi usterek w budynkach. Mieszkaniec zg�
 
 - **FQ-2:** nieudana próba logowania w drugiej karcie przeglądarki kończy aktywną sesję w pierwszej, więc użytkownik zostaje wylogowany.
 - **FQ-6:** do zgłoszenia z kategorii Hydraulika można przypisać wykonawcę ze specjalizacją Elektryka.
-- **FQ-1:** poprawny adres e-mail o maksymalnej dozwolonej długości jest odrzucany przy logowaniu. Wyszło to przy testach wartości brzegowych.
+- **FQ-1:** poprawny adres e-mail o maksymalnej dozwolonej długości jest odrzucany przy logowaniu. Wyszło to przy teście maksymalnej długości adresu.
 
 ## Plan testów
 
