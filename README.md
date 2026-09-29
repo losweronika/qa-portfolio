@@ -77,7 +77,7 @@ Zgłoszenie ma 5 stanów i 7 akcji. Rozpisałam 9 przejść dozwolonych i 22 nie
 
 Dla uprawnień zestawiłam 7 akcji na zgłoszeniu z 7 wariantami ról, np. zarządca przypisany do budynku i obcy, mieszkaniec zgłaszający i obcy. Z 49 kombinacji wyszły 22 przypadki.
 
-▶️ [**Macież uprawnień rola x akcja**] (https://docs.google.com/spreadsheets/d/17Atxk25Z4c-bw4njBK-ek4VWR8GlwUyi8Y-1a9cIr0w/edit?usp=sharing)
+▶️ [**Macież uprawnień rola x akcja**](https://docs.google.com/spreadsheets/d/17Atxk25Z4c-bw4njBK-ek4VWR8GlwUyi8Y-1a9cIr0w/edit?usp=sharing)
 
 ## Scenariusze i przypadki testowe
 
