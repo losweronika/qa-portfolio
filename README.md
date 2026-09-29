@@ -1,8 +1,8 @@
 # Weronika Łoś · Testerka oprogramowania
 
-Przebranżawiam się i szukam pierwszej pracy jako testerka manualna. Żeby sprawdzić się w praktyce, przetestowałam od początku do końca FixEstate – system do zgłaszania usterek w budynkach, z panelem webowym i aplikacją mobilną dla czterech ról. Poniżej jest wszystko, co przy tym powstało.
+Przebranżawiam się i szukam pierwszej pracy jako testerka manualna. Żeby sprawdzić się w praktyce, przetestowałam od początku do końca aplikację FixEstate, czyli system do zgłaszania usterek w budynkach, z panelem webowym i aplikacją mobilną dla czterech ról. Poniżej znajdują się pliki, które powstały podczas procesu testowego.
 
-W testowaniu najbardziej lubię szukać miejsc, w których system działa inaczej, niż obiecuje dokumentacja. Dlatego sprawdzam nie tylko interfejs, ale też API i dane w bazie. Kiedy zgłaszam błąd, piszę kroki tak, żeby programista mógł go odtworzyć bez dopytywania.
+W testowaniu najbardziej lubię szukać miejsc, w których system działa inaczej, niż obiecuje dokumentacja. Dlatego sprawdzam nie tylko interfejs, ale też API i dane w bazie. Kiedy zgłaszam błąd, piszę kroki tak, by programista mógł go odtworzyć bez problemu.
 
 Podczas nauki pracowałam z Jirą, Zephyr Scale, Postmanem, SQL, Chrome DevTools i GitHubem.
 
@@ -31,7 +31,7 @@ Podczas nauki pracowałam z Jirą, Zephyr Scale, Postmanem, SQL, Chrome DevTools
 
 ## Testowana aplikacja: FixEstate
 
-FixEstate służy do zgłaszania i obsługi usterek w budynkach. Mieszkaniec zgłasza usterkę w aplikacji mobilnej, zarządca albo administrator przypisuje ją wykonawcy w panelu webowym, a wykonawca oddaje wykonaną pracę do oceny. Zgłoszenie przechodzi przez stany Nowe, W trakcie, W ocenie, Zakończone lub Odrzucone, a to, kto może zmienić stan, zależy od roli. Backend działa na Supabase (PostgreSQL), więc oprócz interfejsu testowałam też REST API i dane w bazie.
+Apliakcja FixEstate służy do zgłaszania i obsługi usterek w budynkach. Mieszkaniec zgłasza usterkę w aplikacji mobilnej, zarządca albo administrator przypisuje ją wykonawcy w panelu webowym, a wykonawca oddaje wykonaną pracę do oceny także w aplikacji mobilnej. Zgłoszenie przechodzi przez stany Nowe, W trakcie, W ocenie, Zakończone lub Odrzucone, a to, kto może zmienić stan, zależy od roli. Backend działa na Supabase (PostgreSQL), więc oprócz interfejsu testowałam też REST API i dane w bazie.
 
 ## Najważniejsze znaleziska
 
@@ -63,9 +63,7 @@ W tytule (do 100 znaków), opisie (do 1000 znaków) i załączniku (do 3 zdjęć
 
 ### Tablica decyzyjna
 
-Dla uprawnień zestawiłam 7 akcji na zgłoszeniu z 7 wariantami ról, np. zarządca przypisany do budynku i obcy, mieszkaniec zgłaszający i obcy. Z 49 kombinacji wyszły 22 przypadki. Osobno rozpisałam odrzucenie zgłoszenia: 3 warunki dają 8 kombinacji, które zamknęłam w 4 regułach i 4 przypadkach.
-
-▶️ [**Tablica decyzyjna uprawnień do zgłoszeń**](https://docs.google.com/spreadsheets/d/17Atxk25Z4c-bw4njBK-ek4VWR8GlwUyi8Y-1a9cIr0w/edit?usp=sharing)
+Rozpisałam odrzucenie zgłoszenia za pomocą tablicy decyzyjnej: 3 warunki dają 8 kombinacji, które zamknęłam w 4 regułach i 4 przypadkach. Przypadki testowe zostały prawidłowo zredukowane, by uniknąć powielania reguł.
 
 ▶️ [**Tablica decyzyjna odrzucenia zgłoszenia**](https://docs.google.com/spreadsheets/d/13y-rTcozLjYQItBXbev9K7pQfNeGmc2ZHzfktaYH8wY/edit?usp=sharing)
 
@@ -74,6 +72,12 @@ Dla uprawnień zestawiłam 7 akcji na zgłoszeniu z 7 wariantami ról, np. zarz�
 Zgłoszenie ma 5 stanów i 7 akcji. Rozpisałam 9 przejść dozwolonych i 22 niedozwolone, z których powstało 41 przypadków. W API sprawdzałam, czy przejście niedozwolone w danym stanie kończy się kodem 422, a akcja spoza uprawnień roli kodem 403. Tą techniką testowałam też logowanie (stan zalogowany i niezalogowany).
 
 ▶️ [**Tabela przejść stanów zgłoszenia**](https://docs.google.com/spreadsheets/d/1EJl-A8l-beYo0OW2_BjEGqfwKR2pyT6zI6FYMVZIswM/edit?usp=sharing)
+
+### Macież uprawnień
+
+Dla uprawnień zestawiłam 7 akcji na zgłoszeniu z 7 wariantami ról, np. zarządca przypisany do budynku i obcy, mieszkaniec zgłaszający i obcy. Z 49 kombinacji wyszły 22 przypadki.
+
+▶️ [** Macież uprawnień rola x akcja] (https://docs.google.com/spreadsheets/d/17Atxk25Z4c-bw4njBK-ek4VWR8GlwUyi8Y-1a9cIr0w/edit?usp=sharing)
 
 ## Scenariusze i przypadki testowe
 
@@ -129,4 +133,4 @@ Nie testowałam komentarzy do zgłoszeń, bo zabrakło na nie czasu. Poza zakres
 
 ## Kontakt
 
-losweronika122@gmail.com
+weronika.los@onet.eu
